@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>My E-Commerce Store</title>
+    <link rel="stylesheet" href="assets/style.css"> <!-- Menghubungkan dengan file CSS -->
+    <script defer src="components/JS/checkout.js"></script> <!-- Menghubungkan dengan file JS Checkout -->
+    <script defer src="components/JS/cart.js"></script> <!-- Menghubungkan dengan file JS Keranjang -->
+    <script defer src="components/JS/product.js"></script> <!-- Menghubungkan dengan file JS Produk -->
+    <script defer src="JS/script.js"></script> <!-- Menghubungkan dengan file JS utama -->
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo">My Store</div>
+        <nav>
+            <ul>
+                <li><a href="#">Beranda</a></li>
+                <li><a href="#">Belanja</a>
+                    <ul class="dropdown">
+                        <li><a href="#">Kategori 1</a></li>
+                        <li><a href="#">Kategori 2</a></li>
+                        <li><a href="#">Kategori 3</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">Kontak</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Section -->
+    <main>
+        <!-- Search Bar -->
+        <section class="search-bar" role="search">
+            <label for="search-input" class="sr-only">Cari produk</label>
+            <input type="text" id="search-input" placeholder="Cari produk..." aria-label="Cari produk">
+            <button id="search-button" aria-label="Cari produk">Cari</button>
+        </section>
+
+        <h2>Produk Unggulan</h2>
+
+        <!-- Filter Produk -->
+        <section class="filters">
+            <button class="filter-button" onclick="filterProducts('all')">Semua Produk</button>
+            <button class="filter-button" onclick="filterProducts('category1')">Kategori 1</button>
+            <button class="filter-button" onclick="filterProducts('category2')">Kategori 2</button>
+        </section>
+
+        <!-- Produk -->
+        <section class="products">
+            <div class="product-card category1">
+                <img src="https://via.placeholder.com/150" alt="Produk 1">
+                <h3>Produk 1</h3>
+                <p>$20.00</p>
+                <button class="add-to-cart" data-product="Produk 1" data-price="20.00">Tambah ke Keranjang</button>
+            </div>
+            <div class="product-card category2">
+                <img src="https://via.placeholder.com/150" alt="Produk 2">
+                <h3>Produk 2</h3>
+                <p>$25.00</p>
+                <button class="add-to-cart" data-product="Produk 2" data-price="25.00">Tambah ke Keranjang</button>
+            </div>
+            <div class="product-card category1">
+                <img src="https://via.placeholder.com/150" alt="Produk 3">
+                <h3>Produk 3</h3>
+                <p>$30.00</p>
+                <button class="add-to-cart" data-product="Produk 3" data-price="30.00">Tambah ke Keranjang</button>
+            </div>
+            <div class="product-card category2">
+                <img src="https://via.placeholder.com/150" alt="Produk 4">
+                <h3>Produk 4</h3>
+                <p>$35.00</p>
+                <button class="add-to-cart" data-product="Produk 4" data-price="35.00">Tambah ke Keranjang</button>
+            </div>
+        </section>
+
+        <!-- Produk Rekomendasi -->
+        <section class="recommended-products">
+            <h2>Produk Rekomendasi</h2>
+            <div class="products">
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/150" alt="Produk 5">
+                    <h3>Produk 5</h3>
+                    <p>$40.00</p>
+                    <button class="add-to-cart" data-product="Produk 5" data-price="40.00">Tambah ke Keranjang</button>
+                </div>
+                <div class="product-card">
+                    <img src="https://via.placeholder.com/150" alt="Produk 6">
+                    <h3>Produk 6</h3>
+                    <p>$45.00</p>
+                    <button class="add-to-cart" data-product="Produk 6" data-price="45.00">Tambah ke Keranjang</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Keranjang Belanja -->
+        <section class="cart-summary">
+            <h2>Keranjang Belanja</h2>
+            <div id="order-summary"></div>
+            <div class="total-amount" id="total-amount"></div>
+
+            <!-- Alamat Pengiriman -->
+            <div class="shipping-address">
+                <label for="address-input">Alamat Pengiriman:</label>
+                <input type="text" id="address-input" placeholder="Masukkan alamat pengiriman" required>
+            </div>
+
+            <!-- Diskon -->
+            <div class="discount-code">
+                <input type="text" id="discount-code" placeholder="Masukkan kode diskon">
+                <button onclick="applyDiscount()">Gunakan Diskon</button>
+                <p id="discount-message"></p>
+            </div>
+
+            <!-- Pilih Metode Pembayaran -->
+            <div class="payment-method">
+                <label for="payment-method">Pilih Metode Pembayaran:</label>
+                <select id="payment-method" onchange="showBankDetails()">
+                    <option value="none">Pilih Metode Pembayaran</option>
+                    <option value="bca">Transfer BCA</option>
+                    <option value="bni">Transfer BNI</option>
+                    <option value="bri">Transfer BRI</option>
+                </select>
+            </div>
+
+            <!-- Informasi Rekening -->
+            <div id="bank-details" style="display: none;">
+                <h4>Informasi Rekening</h4>
+                <p id="bca-details" style="display: none;">
+                    <strong>BCA</strong>: 205138132 (a.n. Kreta Asal Ngawi)
+                </p>
+                <p id="bni-details" style="display: none;">
+                    <strong>BNI</strong>: 864184115 (a.n. Sutarno bin Daisuki)
+                </p>
+                <p id="bri-details" style="display: none;">
+                    <strong>BRI</strong>: 846138112358163 (a.n. Trowongan Jagongawi)
+                </p>
+            </div>
+
+            <button id="checkout-button">Checkout</button>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="contact-info">
+                <p>Email: support@mystore.com</p>
+                <p>Telepon: 123-456-7890</p>
+            </div>
+            <div class="social-media">
+                <a href="#">Facebook</a>
+                <a href="#">Instagram</a>
+                <a href="#">Twitter</a>
+            </div>
+        </div>
+        <p>&copy; 2025 My E-Commerce Store. Semua hak dilindungi.</p>
+    </footer>
+
+    <!-- Cart Count dan Notification -->
+    <div class="cart-count" id="cart-count" aria-live="polite">0</div>
+    <div class="notification" id="notification" aria-live="assertive"></div>
+
+    <!-- Script untuk menambahkan produk ke keranjang dan filter produk -->
+    <script>
+        let cart = [];
+        let discountAmount = 0; // Menyimpan diskon yang diterapkan
+
+        function updateCartCount() {
+            const cartCount = document.getElementById('cart-count');
+            cartCount.textContent = cart.length;
+        }
+
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.style.display = 'block';
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+
+        function addToCart(product) {
+            cart.push(product);
+            updateCartCount();
+            showNotification(`${product.name} berhasil ditambahkan ke keranjang!`);
+            displayOrderSummary(cart); // Update the order summary when a product is added
+        }
+
+        document.querySelectorAll('.add-to-cart').forEach(button => {
+            button.addEventListener('click', function () {
+                const product = {
+                    name: this.dataset.product,
+                    price: parseFloat(this.dataset.price)
+                };
+                addToCart(product);
+            });
+        });
+
+        function filterProducts(category) {
+            const products = document.querySelectorAll('.product-card');
+            products.forEach(product => {
+                if (category === 'all' || product.classList.contains(category)) {
+                    product.style.display = 'block';
+                } else {
+                    product.style.display = 'none';
+                }
+            });
+        }
+
+        function applyDiscount() {
+            const discountCode = document.getElementById('discount-code').value;
+            const discountMessage = document.getElementById('discount-message');
+            const validDiscounts = {
+                'SAVE10': 0.10, // 10% diskon
+                'FREESHIP': 0.05 // 5% diskon
+            };
+
+            if (validDiscounts[discountCode.toUpperCase()]) {
+                discountAmount = validDiscounts[discountCode.toUpperCase()];
+                discountMessage.textContent = `Diskon ${discountAmount * 100}% berhasil diterapkan!`;
+                displayOrderSummary(cart); // Refresh summary with new total
+            } else {
+                discountMessage.textContent = 'Kode diskon tidak valid.';
+            }
+        }
+
+        // Fungsi untuk menampilkan informasi rekening
+        function showBankDetails() {
+            const paymentMethod = document.getElementById('payment-method').value;
+            const bankDetails = document.getElementById('bank-details');
+
+            // Sembunyikan semua detail rekening terlebih dahulu
+            document.getElementById('bca-details').style.display = 'none';
+            document.getElementById('bni-details').style.display = 'none';
+            document.getElementById('bri-details').style.display = 'none';
+
+            // Tampilkan detail rekening berdasarkan metode pembayaran yang dipilih
+            if (paymentMethod === 'bca') {
+                document.getElementById('bca-details').style.display = 'block';
+            } else if (paymentMethod === 'bni') {
+                document.getElementById('bni-details').style.display = 'block';
+            } else if (paymentMethod === 'bri') {
+                document.getElementById('bri-details').style.display = 'block';
+            }
+
+            bankDetails.style.display = paymentMethod === 'none' ? 'none' : 'block';
+        }
+
+        document.getElementById('checkout-button').addEventListener('click', function () {
+            handlePayment(cart); // Handle payment when checkout button is clicked
+        });
+
+        function handlePayment(cart) {
+            const paymentMethod = document.getElementById('payment-method').value;
+
+            if (cart.length === 0) {
+                alert('Keranjang Anda kosong. Silakan tambahkan produk sebelum checkout.');
+            } else if (paymentMethod === 'none') {
+                alert('Pilih metode pembayaran terlebih dahulu.');
+            } else {
+                // Simulasi proses pembayaran
+                const total = calculateTotal(cart);
+                setTimeout(() => {
+                    alert(`Pembayaran berhasil! Total yang dibayar: $${total.toFixed(2)}.
+                    Silakan lakukan transfer ke rekening yang telah Anda pilih.`);
+                }, 2000); // Simulasi delay pembayaran
+            }
+        }
+
+        function calculateTotal(cart) {
+            let total = 0;
+            cart.forEach(product => {
+                total += product.price;
+            });
+            return total;
+        }
+
+        function displayOrderSummary(cart) {
+            const orderSummary = document.getElementById('order-summary');
+            const totalAmount = document.getElementById('total-amount');
+            orderSummary.innerHTML = ''; // Clear the previous summary
+
+            if (cart.length === 0) {
+                orderSummary.innerHTML = '<p>Keranjang Anda kosong.</p>';
+            } else {
+                let total = 0;
+                cart.forEach((product) => {
+                    const productItem = document.createElement('div');
+                    productItem.innerHTML = `
+                        <p>${product.name}</p>
+                        <p>Harga: $${product.price.toFixed(2)}</p>
+                    `;
+                    orderSummary.appendChild(productItem);
+                    total += product.price;
+                });
+
+                // Apply discount if any
+                const finalTotal = total - (total * discountAmount);
+                totalAmount.innerHTML = `<p>Total: $${finalTotal.toFixed(2)}</p>`;
+            }
+        }
+    </script>
+</body>
+
+</html>
